@@ -41,7 +41,7 @@ public class AuthController {
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -63,9 +63,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest){
-        if(userRepository.existsByUserName(signupRequest.getUsername())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is exist"));
-        }
         if(userRepository.existsByEmail(signupRequest.getEmail())){
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is exist"));
         }
