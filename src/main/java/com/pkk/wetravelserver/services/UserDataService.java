@@ -1,9 +1,7 @@
 package com.pkk.wetravelserver.services;
 
-import com.pkk.wetravelserver.model.User;
 import com.pkk.wetravelserver.model.UserData;
 import com.pkk.wetravelserver.repository.UserDataRepository;
-import com.pkk.wetravelserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 public class UserDataService {
 
     private final UserDataRepository userDataRepository;
-    private final UserRepository userRepository;
 
     @Value("${entity.default-value.userdata.status}")
     private String defaultStatus;
@@ -29,10 +26,6 @@ public class UserDataService {
                 data.setStatus(defaultStatus);
             }
         }
-        User user = userRepository.findById(data.getUser_id())
-                .orElseThrow(() -> new Exception("No user with id " + data.getUser_id()));
-        data.setUser(user);
-        user.setUserData(data);
         userDataRepository.save(data);
         return data;
     }

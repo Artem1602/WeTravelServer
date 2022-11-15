@@ -15,7 +15,7 @@ public class UserDataController {
     private final UserDataService service;
 
     @PutMapping("/fill")
-    public UserData addUserData(@RequestBody UserData userData) throws Exception {
+    public UserData fillUserData(@RequestBody UserData userData) throws Exception {
         return service.fillUserData(userData);
     }
 }

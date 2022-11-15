@@ -20,7 +20,7 @@ public class UserData {
 
     private String info;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "user_id")
     @JsonIgnore

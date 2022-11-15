@@ -21,8 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
-    //private final UserDetailsServiceImpl userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authenticationJwtTokenFilter;
 
@@ -45,6 +43,7 @@ public class WebSecurityConfig {
                     .antMatchers("/api/auth/**").permitAll()
                     .antMatchers("/api/test/**").permitAll()
                     .antMatchers("/api/userdata/**").permitAll()
+                    .antMatchers("/api/video/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
