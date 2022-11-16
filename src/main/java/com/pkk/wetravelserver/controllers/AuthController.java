@@ -66,6 +66,10 @@ public class AuthController {
         if(userRepository.existsByEmail(signupRequest.getEmail())){
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is exist"));
         }
+        if(userRepository.existsByUserName(signupRequest.getUsername())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: username is exist"));
+        }
+
 
         User user = new User(signupRequest.getUsername(),signupRequest.getEmail(),passwordEncoder.encode(signupRequest.getPassword()));
         Set<String> reqRoles = signupRequest.getRoles();

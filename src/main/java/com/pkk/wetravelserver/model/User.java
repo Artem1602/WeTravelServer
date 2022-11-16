@@ -3,17 +3,21 @@ package com.pkk.wetravelserver.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-    })
-@Getter @Setter  @NoArgsConstructor
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email"), @UniqueConstraint(columnNames = "userName")
+        })
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
 
     private final String role_id = "role_id";
@@ -23,27 +27,28 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 25)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private String imgPath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = role_id))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = role_id))
 
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserData userData;
-
-
 
 
     public User(String userName, String email, String password) {
