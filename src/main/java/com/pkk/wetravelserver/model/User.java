@@ -3,10 +3,8 @@ package com.pkk.wetravelserver.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
