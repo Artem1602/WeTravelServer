@@ -17,14 +17,19 @@ import java.util.Set;
 public class User {
 
     private final String role_id = "role_id";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String userName;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -37,6 +42,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private UserData userData;
+
+
+
 
     public User(String userName, String email, String password) {
         this.userName = userName;

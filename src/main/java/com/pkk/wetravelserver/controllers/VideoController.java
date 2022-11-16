@@ -1,5 +1,7 @@
 package com.pkk.wetravelserver.controllers;
 
+import com.pkk.wetravelserver.model.Video;
+import com.pkk.wetravelserver.services.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/storage")
@@ -21,11 +25,11 @@ public class VideoController {
 
     @Value("${app.files.storage.path}")
     private String pathToStorage;
-
+    private final VideoService videoService;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
     @PostMapping("/upload")
-    public ResponseEntity<?> handleUpload(@RequestParam("user-file") MultipartFile multipartFile, @RequestParam("user_id") String userid) {
+    public ResponseEntity<?> handleUpload(@RequestParam("user-file") MultipartFile multipartFile, @RequestParam("user_id") String userid, @RequestParam("location") String location) {
 
         File userIdDirectory = new File(pathToStorage + File.separator + userid);
         if (!userIdDirectory.exists()) {
@@ -43,6 +47,20 @@ public class VideoController {
             logger.error("#handleUpload " + e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+        Video video = new Video(
+                name,
+                userIdDirectory.getPath() + File.separator + name,
+                LocalDateTime.now(),
+                location
+        );
+        videoService.saveInstance(video);
         return ResponseEntity.ok("File uploaded successfully.");
     }
+
+    @GetMapping("/videos")
+    public List<Video> getVideoList() {
+        return videoService.getAllVideo();
+    }
+
+
 }

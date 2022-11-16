@@ -1,45 +1,4 @@
-        FileItemIterator iterStream = upload.getItemIterator(request);
 
-        String userid = request.getParameter("user_id");
-        File userIdDirectory = new File(pathToTempDir + File.separator + userid);
-        if (!userIdDirectory.exists()){
-            userIdDirectory.mkdir();
-        }
-
-        while (iterStream.hasNext()) {
-            FileItemStream item = iterStream.next();
-            String name = item.getFieldName();
-            InputStream inputStream = item.openStream();
-            if (!item.isFormField()) {
-                try(OutputStream outputStream = new FileOutputStream(userIdDirectory.getPath() + File.separator + name)){
-                    IOUtils.copy(inputStream, outputStream);
-                }
-            } else {
-                String formFieldValue = Streams.asString(inputStream);
-                System.out.println(formFieldValue);
-            }
-        }
-
-
-
-        //        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        //        String userid = request.getParameter("user_id");
-        //
-        //        logger.debug("#handleUpload Is multipart: {}", isMultipart);
-        //        if(!isMultipart){
-        //            return ResponseEntity.badRequest().body("Is not a multipart request.");
-        //        }
-        //        File userIdDirectory = new File(pathToTempDir + File.separator + userid);
-        //        if (!userIdDirectory.exists()){
-        //            userIdDirectory.mkdir();
-        //        }
-        //        for(Part part : request.getParts()){
-        //            logger.info("#handleUpload user_id: {}, catch file: {}", userid, part.getName());
-        //
-        //            try(InputStream inputStream = part.getInputStream();
-        //                OutputStream outputStream = new FileOutputStream(userIdDirectory.getPath() + File.separator + part.getName())){
-        //                IOUtils.copy(inputStream, outputStream);
-        //            } catch (IOException e){
-        //                return ResponseEntity.internalServerError().body(e.getMessage());
-        //            }
-        //        }
+        INSERT INTO roles(name) VALUES('ROLE_USER');
+        INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+        INSERT INTO roles(name) VALUES('ROLE_ADMIN');

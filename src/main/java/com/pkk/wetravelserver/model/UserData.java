@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class UserData {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private long user_id;
 
     private String status;
