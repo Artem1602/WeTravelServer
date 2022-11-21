@@ -1,7 +1,7 @@
 package com.pkk.wetravelserver.controllers;
 
 import com.pkk.wetravelserver.model.UserData;
-import com.pkk.wetravelserver.services.UserDataService;
+import com.pkk.wetravelserver.services.model.UserDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

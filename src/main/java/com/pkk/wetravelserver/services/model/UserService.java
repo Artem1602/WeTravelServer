@@ -1,4 +1,4 @@
-package com.pkk.wetravelserver.services;
+package com.pkk.wetravelserver.services.model;
 
 import com.pkk.wetravelserver.model.User;
 import com.pkk.wetravelserver.repository.UserRepository;

@@ -1,4 +1,4 @@
-package com.pkk.wetravelserver.services;
+package com.pkk.wetravelserver.services.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pkk.wetravelserver.model.User;

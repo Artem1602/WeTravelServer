@@ -1,6 +1,6 @@
 package com.pkk.wetravelserver.config.jwt;
 
-import com.pkk.wetravelserver.services.UserDetailsImpl;
+import com.pkk.wetravelserver.services.auth.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;

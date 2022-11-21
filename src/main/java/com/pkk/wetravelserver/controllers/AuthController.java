@@ -10,7 +10,7 @@ import com.pkk.wetravelserver.model.Role;
 import com.pkk.wetravelserver.model.User;
 import com.pkk.wetravelserver.repository.RoleRepository;
 import com.pkk.wetravelserver.repository.UserRepository;
-import com.pkk.wetravelserver.services.UserDetailsImpl;
+import com.pkk.wetravelserver.services.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
