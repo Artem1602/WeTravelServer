@@ -4,6 +4,7 @@ import com.pkk.wetravelserver.javabean.MessageResponse;
 import com.pkk.wetravelserver.model.Video;
 import com.pkk.wetravelserver.services.UserService;
 import com.pkk.wetravelserver.services.VideoService;
+import com.pkk.wetravelserver.util.StorageUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -34,15 +35,16 @@ public class VideoController {
 
     private final UserService userService;
 
+    private final StorageUtil storageUtil;
     private final Logger logger = LoggerFactory.getLogger(VideoController.class);
 
     @PostMapping("/video/upload")
     public ResponseEntity<?> handleVideoUpload(@RequestParam("video") MultipartFile multipartFile, @RequestParam("user_id") Long userid, @RequestParam("location") String location) {
-        File userIdDirectory = initUserIdDir(userid);
+        File userIdDirectory = storageUtil.initUserIdDir(pathToStorage + File.separator + userid, logger);
         String name = multipartFile.getOriginalFilename();
         logger.info("#handleUpload user_id: {}, catch file: {}", userid, name);
         try {
-            saveMultipartFile(multipartFile, userIdDirectory, name);
+            storageUtil.saveMultipartFile(multipartFile, userIdDirectory, name, logger);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
@@ -63,12 +65,12 @@ public class VideoController {
 
     @PostMapping("/img/upload")
     public ResponseEntity<?> uploadUserImg(@RequestParam("user_img") MultipartFile multipartFile, @RequestParam("user_id") Long userid) {
-        File userIdDirectory = initUserIdDir(userid);
+        File userIdDirectory =  storageUtil.initUserIdDir(pathToStorage + File.separator + userid, logger);
         String name = multipartFile.getOriginalFilename();
         String extension = name.substring(name.indexOf('.'));
         logger.info("#imgUpload user_id: {}", userid);
         try {
-            saveMultipartFile(multipartFile, userIdDirectory, userImg + extension);
+            storageUtil.saveMultipartFile(multipartFile, userIdDirectory, userImg + extension, logger);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
@@ -76,23 +78,4 @@ public class VideoController {
         return ResponseEntity.ok(new MessageResponse("Img uploaded successfully."));
     }
 
-    private File initUserIdDir(Long userid) {
-        File userIdDirectory = new File(pathToStorage + File.separator + userid);
-        if (!userIdDirectory.exists()) {
-            logger.info("Personal user folder creation status: {}", userIdDirectory.mkdir());
-        }
-        return userIdDirectory;
-    }
-
-    private Boolean saveMultipartFile(MultipartFile multipartFile, File userIdDirectory, String fileName) throws IOException {
-        try (InputStream inputStream = multipartFile.getInputStream();
-             OutputStream outputStream = new FileOutputStream(userIdDirectory.getPath() + File.separator + fileName)
-        ) {
-            IOUtils.copy(inputStream, outputStream);
-            return true;
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
-    }
 }
